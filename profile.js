@@ -19,6 +19,8 @@ if (savedUser) {
   user.age = JSON.parse(savedUser).age;
   user.city = JSON.parse(savedUser).city;
   user.hobbies = JSON.parse(savedUser).hobbies;
+} else {
+  saveUserData();
 }
 
 //Объявляем и создаем элементы на странице
@@ -113,6 +115,8 @@ addHobby.onclick = () => {
     li.textContent = newHobby;
     li.append(removeHobby, transformHobby);
     hobbiesList.append(li);
+    saveUserData();
+
     removeHobby.onclick = () => {
       const indexFromDel = user.hobbies.indexOf(`${newHobby}`);
       user.hobbies.splice(indexFromDel, 1);
