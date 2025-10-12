@@ -176,7 +176,6 @@ const fnRandomNumber = () => {
   return randomNumber;
 };
 fnRandomNumber();
-console.log(randomNumber);
 
 btnClick.addEventListener("click", () => {
   let inputNumber = Number(inputNumberString.value);
@@ -213,7 +212,6 @@ btnClick.addEventListener("click", () => {
       btnClick.disabled = true;
       btnClick.textContent = "😊 Попробуй снова!";
     }
-    console.log(inputNumber);
   } else {
     replaceTextGuess("Введите любое число от 1 до 30 включительно");
   }
@@ -226,7 +224,6 @@ btnRest.addEventListener("click", () => {
   replaceTextGuess("Поехали 🚀");
   textNumber.textContent = "❓";
   fnRandomNumber();
-  console.log(randomNumber);
   btnClick.disabled = false;
   btnClick.classList.remove("disabled");
   btnClick.textContent = "Угадать";
