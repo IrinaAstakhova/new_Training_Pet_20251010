@@ -8,18 +8,8 @@ const user = {
   age: 25,
   city: "Москва",
   hobbies: ["чтение", "программирование", "путешествия"],
+  theme: "light",
 };
-
-//Обновляем объект из localStorage
-const savedUser = localStorage.getItem("keyUserArray");
-if (savedUser) {
-  user.name = JSON.parse(savedUser).name;
-  user.age = JSON.parse(savedUser).age;
-  user.city = JSON.parse(savedUser).city;
-  user.hobbies = JSON.parse(savedUser).hobbies;
-} else {
-  saveUserData();
-}
 
 //Объявляем и создаем элементы на странице
 const profile = document.createElement("div");
@@ -40,14 +30,35 @@ const addHobby = document.createElement("button");
 addHobby.textContent = "➕";
 hobbiesContainer.prepend(addHobby);
 
+//Обновляем объект из localStorage
+const savedUser = localStorage.getItem("keyUserArray");
+if (savedUser) {
+  user.name = JSON.parse(savedUser).name;
+  user.age = JSON.parse(savedUser).age;
+  user.city = JSON.parse(savedUser).city;
+  user.hobbies = JSON.parse(savedUser).hobbies;
+  user.theme = JSON.parse(savedUser).theme;
+
+  if (user.theme === "dark") {
+    document.body.classList.add("dark-theme");
+    themeBtn.textContent = "🌚 Ночь";
+  }
+} else {
+  saveUserData();
+}
+
 //Смена темы
 themeBtn.onclick = () => {
-  document.body.classList.toggle("dark-theme");
-  if (document.body.classList.contains("dark-theme")) {
+  if (user.theme === "light") {
+    user.theme = "dark";
+    document.body.classList.add("dark-theme");
     themeBtn.textContent = "🌚 Ночь";
   } else {
+    user.theme = "light";
+    document.body.classList.remove("dark-theme");
     themeBtn.textContent = "☀️ День";
   }
+  saveUserData();
 };
 
 //Смена города
@@ -199,6 +210,7 @@ btnClick.addEventListener("click", () => {
       btnClick.classList.add("disabled");
       btnClick.disabled = true;
       btnClick.textContent = "💞 Ты молодец!";
+      inputNumberString.style.borderColor = "green";
     }
 
     //Проверяем Проиграл или нет и выводим кол-во оставшихся попыток
@@ -227,4 +239,10 @@ btnRest.addEventListener("click", () => {
   btnClick.disabled = false;
   btnClick.classList.remove("disabled");
   btnClick.textContent = "Угадать";
+});
+
+inputNumberString.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    btnClick.click();
+  }
 });
