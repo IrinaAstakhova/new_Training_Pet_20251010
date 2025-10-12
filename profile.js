@@ -52,8 +52,9 @@ themeBtn.onclick = () => {
 
 //Смена города
 changeCityBtn.onclick = () => {
-  user.city = prompt("Введите город").trim();
-  if (user.city !== "") {
+  const renameCity = prompt("Введите город");
+  if (renameCity !== null && renameCity.trim() !== "") {
+    user.city = renameCity.trim();
     cityElement.textContent = `Город: ${user.city}`;
   } else {
     alert("Поле не может быть пустым");
@@ -87,8 +88,8 @@ user.hobbies.forEach((hobby) => {
 
   transformHobby.onclick = () => {
     let oldTransformHobby = user.hobbies.indexOf(`${hobby}`);
-    const newTransformHobby = prompt("Введите новое значение").trim();
-    if (newTransformHobby !== "") {
+    const newTransformHobby = prompt("Введите новое значение");
+    if (newTransformHobby !== null && newTransformHobby !== "") {
       user.hobbies[oldTransformHobby] = newTransformHobby;
       li.textContent = newTransformHobby;
       li.append(removeHobby, transformHobby);
@@ -101,8 +102,8 @@ user.hobbies.forEach((hobby) => {
 
 //Добавляем новое хобби с кнопками удаления и редактирования
 addHobby.onclick = () => {
-  const newHobby = prompt("Введите еще одно хобби").trim();
-  if (newHobby !== "") {
+  const newHobby = prompt("Введите еще одно хобби");
+  if (newHobby !== null && newHobby !== "") {
     user.hobbies.push(newHobby);
     const li = document.createElement("li");
     const removeHobby = document.createElement("button");
@@ -124,8 +125,8 @@ addHobby.onclick = () => {
 
     transformHobby.onclick = () => {
       let oldTransformHobby = user.hobbies.indexOf(newHobby);
-      const newTransformHobby = prompt("Введите новое значение").trim();
-      if (newTransformHobby !== "") {
+      const newTransformHobby = prompt("Введите новое значение");
+      if (newTransformHobby !== null && newTransformHobby !== "") {
         user.hobbies[oldTransformHobby] = newTransformHobby;
         li.textContent = newTransformHobby;
         li.append(removeHobby, transformHobby);
@@ -150,3 +151,83 @@ profile.append(
   hobbiesList
 );
 document.body.append(profile);
+
+//Игра: угадай число
+let count = 29;
+let lastCount = 0;
+
+//Находим элементы на странице
+const textGuess = document.querySelector(".text-guess");
+const textNumber = document.querySelector(".text-number");
+const score = document.querySelector(".score");
+const record = document.querySelector(".record");
+const inputNumberString = document.querySelector("input");
+const btnClick = document.querySelector(".clicker");
+const btnRest = document.querySelector(".rest");
+btnClick.disabled = false;
+
+function replaceTextGuess(text) {
+  textGuess.textContent = text;
+  inputNumberString.value = "";
+}
+let randomNumber = 0;
+const fnRandomNumber = () => {
+  randomNumber = Math.floor(Math.random() * 30) + 1;
+  return randomNumber;
+};
+fnRandomNumber();
+console.log(randomNumber);
+
+btnClick.addEventListener("click", () => {
+  let inputNumber = Number(inputNumberString.value);
+  if (inputNumber <= 30 && inputNumber >= 1) {
+    if (inputNumber !== randomNumber) {
+      if (inputNumber > randomNumber) {
+        replaceTextGuess("Вы ввели слишком большое число");
+        inputNumberString.value = "";
+      } else if (inputNumber < randomNumber) {
+        replaceTextGuess("Вы ввели слишком маленькое число");
+      }
+    } else {
+      replaceTextGuess("🏅 Вы Победили!!!");
+      if (count > lastCount) {
+        lastCount = count;
+        record.textContent = `🏆 Твой рекорд равен: ${lastCount}`;
+      } else {
+        record.textContent = `🏆 Твой рекорд равен: ${lastCount}`;
+      }
+      textNumber.textContent = `${randomNumber}`;
+      btnClick.classList.add("disabled");
+      btnClick.disabled = true;
+      btnClick.textContent = "💞 Ты молодец!";
+    }
+
+    //Проверяем Проиграл или нет и выводим кол-во оставшихся попыток
+    if (count > 0) {
+      count--;
+      score.textContent = `Количество попыток: ${count + 1}`;
+    } else if (count === 0) {
+      replaceTextGuess("💥Вы проиграли");
+      textNumber.textContent = `${randomNumber}`;
+      btnClick.classList.add("disabled");
+      btnClick.disabled = true;
+      btnClick.textContent = "😊 Попробуй снова!";
+    }
+    console.log(inputNumber);
+  } else {
+    replaceTextGuess("Введите любое число от 1 до 30 включительно");
+  }
+});
+
+btnRest.addEventListener("click", () => {
+  count = 30;
+  record.textContent = `🏆 Твой рекорд равен: ${lastCount}`;
+  score.textContent = `Количество попыток: ${count}`;
+  replaceTextGuess("Поехали 🚀");
+  textNumber.textContent = "❓";
+  fnRandomNumber();
+  console.log(randomNumber);
+  btnClick.disabled = false;
+  btnClick.classList.remove("disabled");
+  btnClick.textContent = "Угадать";
+});

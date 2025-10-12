@@ -3,3 +3,66 @@ body.dark-theme {
     color:rgb(243, 243, 243);
     transition: 0.3s all;
 }
+
+h3, .paragrafh {text-align: center;}
+
+.container-play {
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(210, 234, 255);
+    width: 100%;
+    max-width: 500px;
+    border: 1px dashed  rgb(152, 212, 152);
+}
+
+body.dark-theme .container-play {
+ background-color: rgb(11, 48, 11);
+}
+
+.column1, .column2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.text-guess {
+    text-align: center;
+}
+
+.text-number {
+    background: rgb(152, 212, 152);
+    padding: 40px;
+    border: 1px dashed  rgb(255, 255, 255);
+    color: #fff;
+    width: 100%;
+    max-width: 20px;
+}
+
+.column2 input {
+    height: 30px;
+    border: 1px dashed  rgb(212, 103, 103);
+}
+
+button {cursor: pointer;}
+
+button.disabled {
+    background: rgb(66, 66, 66);
+    cursor: no-drop;
+}
+
+.clicker {
+    height: 40px;
+    background: rgb(152, 212, 152);
+    border: 1px dashed  rgb(255, 255, 255);
+    color: #fff;
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
+}
+
+.rest {height: 40px;
+    background: rgb(231, 70, 70);
+    border: 4px double  rgb(255, 255, 255);
+    color: #fff;
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;}
