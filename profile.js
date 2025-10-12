@@ -1,5 +1,3 @@
-const log = console.log;
-
 //Функция для сохранения в localStorage
 const saveUserData = () => {
   return localStorage.setItem("keyUserArray", JSON.stringify(user));
@@ -128,9 +126,7 @@ addHobby.onclick = () => {
       let oldTransformHobby = user.hobbies.indexOf(newHobby);
       const newTransformHobby = prompt("Введите новое значение").trim();
       if (newTransformHobby !== "") {
-        console.log(user.hobbies[oldTransformHobby]);
         user.hobbies[oldTransformHobby] = newTransformHobby;
-        console.log(newTransformHobby);
         li.textContent = newTransformHobby;
         li.append(removeHobby, transformHobby);
         saveUserData();
