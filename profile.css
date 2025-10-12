@@ -7,9 +7,12 @@ body.dark-theme {
 h3, .paragrafh {text-align: center;}
 
 .container-play {
-    padding: 50px;
+    box-sizing: border-box;
+    padding: clamp(10px, 5vw, 20px);
     display: flex;
-    justify-content: space-between;
+    gap: 80px;
+    flex-wrap: wrap;
+    justify-content: center;
     background-color: rgb(210, 234, 255);
     width: 100%;
     max-width: 500px;
