@@ -1,3 +1,5 @@
+const log = console.log;
+
 //Функция для сохранения в localStorage
 const saveUserData = () => {
   return localStorage.setItem("keyUserArray", JSON.stringify(user));
@@ -244,5 +246,62 @@ btnRest.addEventListener("click", () => {
 inputNumberString.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     btnClick.click();
+  }
+});
+
+//Список моих покупок
+const btnFilterAll = document.querySelector("button.all");
+const btnFilterCompleted = document.querySelector("button.completed");
+const btnFilterUnfinished = document.querySelector("button.unfinished");
+const inputPurchase = document.querySelector("input.input-purchase");
+const btnAddPurchase = document.querySelector(".btn-add_purchase");
+const listPuchase = document.querySelector(".list_purchase ul");
+
+let arrPurchase = [];
+
+//Сохраняем в локал сторадж
+const saveListPurchase = () => {
+  return localStorage.setItem("listPuchase", JSON.stringify(arrPurchase));
+};
+
+//Восстанавливаем из локал сторадж
+const localStorageGet = localStorage.getItem("listPuchase");
+if (localStorageGet) {
+  arrPurchase = JSON.parse(localStorageGet);
+  log(arrPurchase);
+  arrPurchase.forEach((obj) => {
+    const liElem = document.createElement("li");
+    liElem.innerHTML = `<input type="checkbox"> ${obj.purchase}`;
+    listPuchase.append(liElem);
+  });
+} else {
+  saveListPurchase();
+}
+
+//Доавление покупки
+const addPurchaseItem = () => {
+  let inputPurchaseValue = inputPurchase.value.trim();
+  if (inputPurchaseValue === "") {
+    return alert("🚫 Поле покупки не может быть пустым");
+  } else {
+    arrPurchase.push({
+      purchase: `${inputPurchaseValue}`,
+      completed: false,
+    });
+
+    const liElem = document.createElement("li");
+    liElem.innerHTML = `<input type="checkbox"> ${inputPurchaseValue}`;
+    listPuchase.append(liElem);
+
+    inputPurchase.value = "";
+
+    saveListPurchase();
+  }
+};
+
+btnAddPurchase.addEventListener("click", addPurchaseItem);
+inputPurchase.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    addPurchaseItem();
   }
 });
