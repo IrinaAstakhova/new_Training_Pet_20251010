@@ -259,26 +259,26 @@ const listPuchase = document.querySelector(".list_purchase ul");
 
 let arrPurchase = [];
 
-//Сохраняем в локал сторадж
+//Сохраняем в локал сторадж список покупок
 const saveListPurchase = () => {
   return localStorage.setItem("listPuchase", JSON.stringify(arrPurchase));
 };
 
-//Восстанавливаем из локал сторадж
+//Восстанавливаем из локал сторадж список покупок
 const localStorageGet = localStorage.getItem("listPuchase");
 if (localStorageGet) {
   arrPurchase = JSON.parse(localStorageGet);
-  log(arrPurchase);
-  arrPurchase.forEach((obj) => {
+  arrPurchase.forEach((obj, index) => {
     const liElem = document.createElement("li");
-    liElem.innerHTML = `<input type="checkbox"> ${obj.purchase}`;
+    liElem.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
+    liElem.dataset.id = index;
     listPuchase.append(liElem);
   });
 } else {
   saveListPurchase();
 }
 
-//Доавление покупки
+//Доавление покупки в список
 const addPurchaseItem = () => {
   let inputPurchaseValue = inputPurchase.value.trim();
   if (inputPurchaseValue === "") {
@@ -287,10 +287,12 @@ const addPurchaseItem = () => {
     arrPurchase.push({
       purchase: `${inputPurchaseValue}`,
       completed: false,
+      id: arrPurchase.length,
     });
 
     const liElem = document.createElement("li");
-    liElem.innerHTML = `<input type="checkbox"> ${inputPurchaseValue}`;
+    liElem.innerHTML = `<input type="checkbox" class="chek_purchase"> ${inputPurchaseValue}`;
+    liElem.dataset.id = arrPurchase.length - 1;
     listPuchase.append(liElem);
 
     inputPurchase.value = "";
@@ -303,5 +305,22 @@ btnAddPurchase.addEventListener("click", addPurchaseItem);
 inputPurchase.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     addPurchaseItem();
+  }
+});
+
+//Добавляем функционал завершения покупки
+listPuchase.addEventListener("change", (e) => {
+  if (e.target.classList.contains("chek_purchase")) {
+    const chekPurchase = e.target;
+    const li = chekPurchase.parentElement;
+    li.classList.toggle("complete_purchase");
+
+    arrPurchase.forEach((item) => {
+      if (item.id === parseInt(li.dataset.id)) {
+        item.completed = li.classList.contains("complete_purchase");
+      }
+    });
+
+    saveListPurchase();
   }
 });
