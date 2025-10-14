@@ -270,7 +270,13 @@ if (localStorageGet) {
   arrPurchase = JSON.parse(localStorageGet);
   arrPurchase.forEach((obj, index) => {
     const liElem = document.createElement("li");
-    liElem.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
+    if (obj.completed === true) {
+      liElem.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${obj.purchase}`;
+      liElem.classList.add("complete_purchase");
+    } else {
+      liElem.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
+    }
+
     liElem.dataset.id = index;
     listPuchase.append(liElem);
   });
@@ -316,7 +322,7 @@ listPuchase.addEventListener("change", (e) => {
     li.classList.toggle("complete_purchase");
 
     arrPurchase.forEach((item) => {
-      if (item.id === parseInt(li.dataset.id)) {
+      if (item.id === +li.dataset.id) {
         item.completed = li.classList.contains("complete_purchase");
       }
     });
