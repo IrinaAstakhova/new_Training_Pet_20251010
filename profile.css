@@ -71,3 +71,106 @@ button.disabled {
     color: #fff;
     font-size: clamp(14px, 3vw, 16px);
     font-weight: 500;}
+
+/*Приложение список покупок*/
+.container-purchase {
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
+    border-radius: 16px;
+    padding: clamp(24px, 8vw, 60px);
+}
+
+.wrapper-container-filter_purchase {
+    align-items: center;
+}
+
+.wrapper-container-filter_purchase, .wrapper-purchase {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    gap: 24px;
+    padding: 16px;
+    background: #00000069;
+    border: 1px dashed #fff;
+    border-radius: 6px;
+}
+
+.filter_purchase, .container-reset_purchase {
+    display: flex;
+    gap: 12px;
+flex-wrap: wrap
+}
+
+.container-reset_purchase {
+    flex-direction: column;
+}
+
+.wrapper-container-filter_purchase button, .btn-add_purchase{
+    height: 34px;
+    background: linear-gradient(90deg,rgba(42, 123, 155, 1) 58%, rgba(87, 199, 133, 1) 100%);
+    color: #fff;
+    padding: 0 16px;
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0px -1px 9px 0px #0942589c;
+    transition: all 0.3s ease;
+}
+
+.wrapper-container-filter_purchase button:hover, .btn-add_purchase:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.search_purchase {
+    height: 30px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ffffff73;
+    width: 100%;
+    color: #d3d3d3;
+}
+
+.input-purchase {
+    height: 30px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #d3d3d3;
+    width: 100%;
+    color: #d3d3d3;
+}
+
+.search_purchase::placeholder, .input-purchase::placeholder {
+    color: #d3d3d3;
+}
+
+.search_purchase:focus, .input-purchase:focus {
+    outline: none;
+}
+
+.list_purchase ul {
+list-style: none;
+padding-left: 0;
+}
+
+.list_purchase ul li {
+color: #d3d3d3;
+}
+
+.chek_purchase {accent-color: rgb(55 146 148);}
+
+
+.delete_purchase {
+    background: none;
+    border: none;
+}
+
+.complete_purchase {text-decoration: line-through;}
