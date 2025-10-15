@@ -267,17 +267,18 @@ const saveListPurchase = () => {
 
 //Функция для отрисовки
 const fnForRenderList = (newArrFiltered) => {
+  arrPurchase.forEach((item, i) => (item.id = i));
   listPuchase.innerHTML = "";
-  newArrFiltered.forEach((obj) => {
+  newArrFiltered.forEach((obj, index) => {
     const li = document.createElement("li");
     if (obj.completed === true) {
-      li.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${obj.purchase}`;
+      li.innerHTML = `<input type="checkbox" checked class="chek_purchase"><button class="delete_purchase">🗑️</button> ${obj.purchase}`;
       li.classList.add("complete_purchase");
     } else {
-      li.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
+      li.innerHTML = `<input type="checkbox" class="chek_purchase"><button class="delete_purchase">🗑️</button> ${obj.purchase}`;
     }
 
-    li.dataset.id = obj.id;
+    li.dataset.id = index;
     listPuchase.append(li);
   });
 };
@@ -304,7 +305,7 @@ const addPurchaseItem = () => {
     });
 
     const liElem = document.createElement("li");
-    liElem.innerHTML = `<input type="checkbox" class="chek_purchase"> ${inputPurchaseValue}`;
+    liElem.innerHTML = `<input type="checkbox" class="chek_purchase"><button class="delete_purchase">🗑️</button> ${inputPurchaseValue}`;
     liElem.dataset.id = arrPurchase.length - 1;
     listPuchase.append(liElem);
 
@@ -340,8 +341,25 @@ listPuchase.addEventListener("change", (e) => {
     } else if (pressbBtnFilter === "completed") {
       fnViewCompleted();
     } else {
-      fnViewAll();
+      fnForRenderList(arrPurchase);
     }
+  }
+});
+
+//Удаление покупки
+listPuchase.addEventListener("click", (e) => {
+  const delBtnPurchase = e.target;
+  if (delBtnPurchase.classList.contains("delete_purchase")) {
+    const li = delBtnPurchase.parentElement;
+    arrPurchase.forEach((item, index) => {
+      if (item.id === +li.dataset.id) {
+        arrPurchase.splice(index, 1);
+      }
+    });
+    li.remove();
+
+    fnForRenderList(arrPurchase);
+    saveListPurchase();
   }
 });
 
