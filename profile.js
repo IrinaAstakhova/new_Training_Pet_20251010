@@ -265,27 +265,33 @@ const saveListPurchase = () => {
   return localStorage.setItem("listPuchase", JSON.stringify(arrPurchase));
 };
 
+//Функция для отрисовки
+const fnForRenderList = (newArrFiltered) => {
+  listPuchase.innerHTML = "";
+  newArrFiltered.forEach((obj) => {
+    const li = document.createElement("li");
+    if (obj.completed === true) {
+      li.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${obj.purchase}`;
+      li.classList.add("complete_purchase");
+    } else {
+      li.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
+    }
+
+    li.dataset.id = obj.id;
+    listPuchase.append(li);
+  });
+};
+
 //Восстанавливаем из локал сторадж список покупок
 const localStorageGet = localStorage.getItem("listPuchase");
 if (localStorageGet) {
   arrPurchase = JSON.parse(localStorageGet);
-  arrPurchase.forEach((obj, index) => {
-    const liElem = document.createElement("li");
-    if (obj.completed === true) {
-      liElem.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${obj.purchase}`;
-      liElem.classList.add("complete_purchase");
-    } else {
-      liElem.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
-    }
-
-    liElem.dataset.id = index;
-    listPuchase.append(liElem);
-  });
+  fnForRenderList(arrPurchase);
 } else {
   saveListPurchase();
 }
 
-//Доавление покупки в список
+//Добавление покупки в список
 const addPurchaseItem = () => {
   let inputPurchaseValue = inputPurchase.value.trim();
   if (inputPurchaseValue === "") {
@@ -315,7 +321,7 @@ inputPurchase.addEventListener("keypress", (e) => {
   }
 });
 
-//Добавляем функционал завершения покупки
+//Добавляем функционал завершения покупки по клику на чекбокс
 listPuchase.addEventListener("change", (e) => {
   if (e.target.classList.contains("chek_purchase")) {
     const chekPurchase = e.target;
@@ -351,15 +357,7 @@ const fnViewCompleted = () => {
   const completedPurchase = arrPurchase.filter(
     (item) => item.completed === true
   );
-  listPuchase.innerHTML = "";
-  completedPurchase.forEach((item) => {
-    const inputPurchaseValue = item.purchase;
-    const li = document.createElement("li");
-    li.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${inputPurchaseValue}`;
-    li.classList.add("complete_purchase");
-    li.dataset.id = item.id;
-    listPuchase.append(li);
-  });
+  fnForRenderList(completedPurchase);
 };
 
 //Показываем завершенные покупки
@@ -373,40 +371,29 @@ const fnViewUnfinished = () => {
   const unfinishedPurchase = arrPurchase.filter(
     (item) => item.completed === false
   );
-  listPuchase.innerHTML = "";
-  unfinishedPurchase.forEach((item) => {
-    const inputPurchaseValue = item.purchase;
-    const li = document.createElement("li");
-    li.innerHTML = `<input type="checkbox" class="chek_purchase"> ${inputPurchaseValue}`;
-    li.dataset.id = item.id;
-    listPuchase.append(li);
-  });
+  fnForRenderList(unfinishedPurchase);
 };
 
-//Показываем незавершенные покупки по клику
+//Показываем незавершенные покупки
 btnFilterUnfinished.addEventListener("click", () => {
   pressbBtnFilter = "unfinished";
   fnViewUnfinished();
 });
 
-const fnViewAll = () => {
-  listPuchase.innerHTML = "";
-  arrPurchase.forEach((obj) => {
-    const li = document.createElement("li");
-    if (obj.completed === true) {
-      li.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${obj.purchase}`;
-      li.classList.add("complete_purchase");
-    } else {
-      li.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
-    }
-
-    li.dataset.id = obj.id;
-    listPuchase.append(li);
-  });
-};
-
 //Показываем все покупки
 btnFilterAll.addEventListener("click", () => {
   pressbBtnFilter = "all";
-  fnViewAll();
+
+  fnForRenderList(arrPurchase);
+});
+
+//Поле поиска
+const inputFilterPurchase = document.querySelector(".search_purchase");
+inputFilterPurchase.addEventListener("input", () => {
+  const value = inputFilterPurchase.value.toLowerCase();
+  let newArrFilter = arrPurchase.filter((item) => {
+    return item.purchase.toLowerCase().includes(value);
+  });
+
+  fnForRenderList(newArrFilter);
 });
