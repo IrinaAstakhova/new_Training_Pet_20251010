@@ -333,6 +333,8 @@ listPuchase.addEventListener("change", (e) => {
       fnViewUnfinished();
     } else if (pressbBtnFilter === "completed") {
       fnViewCompleted();
+    } else {
+      fnViewAll();
     }
   }
 });
@@ -387,8 +389,7 @@ btnFilterUnfinished.addEventListener("click", () => {
   fnViewUnfinished();
 });
 
-//Показываем все покупки
-btnFilterAll.addEventListener("click", () => {
+const fnViewAll = () => {
   listPuchase.innerHTML = "";
   arrPurchase.forEach((obj) => {
     const li = document.createElement("li");
@@ -402,4 +403,10 @@ btnFilterAll.addEventListener("click", () => {
     li.dataset.id = obj.id;
     listPuchase.append(li);
   });
+};
+
+//Показываем все покупки
+btnFilterAll.addEventListener("click", () => {
+  pressbBtnFilter = "all";
+  fnViewAll();
 });
