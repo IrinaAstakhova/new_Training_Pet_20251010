@@ -256,9 +256,10 @@ const btnFilterUnfinished = document.querySelector("button.unfinished");
 const inputPurchase = document.querySelector("input.input-purchase");
 const btnAddPurchase = document.querySelector(".btn-add_purchase");
 const listPuchase = document.querySelector(".list_purchase ul");
+const btnRestPurchase = document.querySelector(".btn-reset_purchase");
 
 let arrPurchase = [];
-
+let pressbBtnFilter;
 //Сохраняем в локал сторадж список покупок
 const saveListPurchase = () => {
   return localStorage.setItem("listPuchase", JSON.stringify(arrPurchase));
@@ -328,5 +329,77 @@ listPuchase.addEventListener("change", (e) => {
     });
 
     saveListPurchase();
+    if (pressbBtnFilter === "unfinished") {
+      fnViewUnfinished();
+    } else if (pressbBtnFilter === "completed") {
+      fnViewCompleted();
+    }
   }
+});
+
+//Очищаем список покупок на странице и в массиве
+btnRestPurchase.addEventListener("click", () => {
+  arrPurchase = [];
+  listPuchase.innerHTML = "";
+  saveListPurchase();
+});
+
+//Функция для завершенных покупок
+const fnViewCompleted = () => {
+  const completedPurchase = arrPurchase.filter(
+    (item) => item.completed === true
+  );
+  listPuchase.innerHTML = "";
+  completedPurchase.forEach((item) => {
+    const inputPurchaseValue = item.purchase;
+    const li = document.createElement("li");
+    li.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${inputPurchaseValue}`;
+    li.classList.add("complete_purchase");
+    li.dataset.id = item.id;
+    listPuchase.append(li);
+  });
+};
+
+//Показываем завершенные покупки
+btnFilterCompleted.addEventListener("click", () => {
+  pressbBtnFilter = "completed";
+  fnViewCompleted();
+});
+
+//Функция для незавершенных покупок
+const fnViewUnfinished = () => {
+  const unfinishedPurchase = arrPurchase.filter(
+    (item) => item.completed === false
+  );
+  listPuchase.innerHTML = "";
+  unfinishedPurchase.forEach((item) => {
+    const inputPurchaseValue = item.purchase;
+    const li = document.createElement("li");
+    li.innerHTML = `<input type="checkbox" class="chek_purchase"> ${inputPurchaseValue}`;
+    li.dataset.id = item.id;
+    listPuchase.append(li);
+  });
+};
+
+//Показываем незавершенные покупки по клику
+btnFilterUnfinished.addEventListener("click", () => {
+  pressbBtnFilter = "unfinished";
+  fnViewUnfinished();
+});
+
+//Показываем все покупки
+btnFilterAll.addEventListener("click", () => {
+  listPuchase.innerHTML = "";
+  arrPurchase.forEach((obj) => {
+    const li = document.createElement("li");
+    if (obj.completed === true) {
+      li.innerHTML = `<input type="checkbox" checked class="chek_purchase"> ${obj.purchase}`;
+      li.classList.add("complete_purchase");
+    } else {
+      li.innerHTML = `<input type="checkbox" class="chek_purchase"> ${obj.purchase}`;
+    }
+
+    li.dataset.id = obj.id;
+    listPuchase.append(li);
+  });
 });
