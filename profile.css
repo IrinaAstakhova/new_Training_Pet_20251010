@@ -6,6 +6,29 @@ body.dark-theme {
 
 h3, .paragrafh {text-align: center;}
 
+.theme-btn {
+    margin-bottom: 40px;
+    height: 40px;
+    background: linear-gradient(210deg,rgba(34, 29, 130, 1) 0%, rgba(253, 29, 29, 1) 100%);
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0px -1px 9px 0px #0942589c;
+    transition: all 0.3s ease;
+    color: #fff;
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
+    width: 100%;
+    max-width: 90px;
+}
+
+.wrapper-guess-container {
+ box-sizing: border-box;
+ background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
+ border-radius: 16px;
+ padding: clamp(24px, 8vw, 60px);
+ margin-top: 40px;
+}
+
 .container-play {
     box-sizing: border-box;
     padding: clamp(10px, 5vw, 20px);
@@ -16,12 +39,9 @@ h3, .paragrafh {text-align: center;}
     width: 100%;
     max-width: 700px;
     border: 1px dashed  rgb(255, 255, 255);
-    margin: 0 auto;;
-}
-
-.container-play {
- background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
- border-radius: 16px;
+    background: #00000069;
+    border-radius: 16px;
+    margin: 0 auto;
 }
 
 .column1, .column2 {
@@ -35,7 +55,7 @@ h3, .paragrafh {text-align: center;}
 }
 
 .text-number {
-    background: rgb(152, 212, 152);
+    background: #379294;
     padding: 40px;
     border: 1px dashed  rgb(255, 255, 255);
     color: #fff;
@@ -46,7 +66,7 @@ h3, .paragrafh {text-align: center;}
 
 .column2 input {
     height: 30px;
-    border: 1px dashed  rgb(212, 103, 103);
+    border: 1px dashed  #b41d3e;
 }
 
 button {cursor: pointer;}

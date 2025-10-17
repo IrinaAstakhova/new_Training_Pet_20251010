@@ -25,6 +25,7 @@ hobbiesContainer.textContent = "  Хобби:";
 const hobbiesList = document.createElement("ul");
 
 const themeBtn = document.createElement("button");
+themeBtn.classList.add("theme-btn");
 themeBtn.textContent = "Сменить тему";
 const changeCityBtn = document.createElement("button");
 changeCityBtn.textContent = "Сменить город";
