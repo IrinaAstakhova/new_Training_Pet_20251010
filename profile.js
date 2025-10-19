@@ -17,9 +17,20 @@ const user = {
 const profile = document.createElement("div");
 profile.classList.add("profile");
 
-const nameElement = document.createElement("h2");
-const ageElement = document.createElement("p");
-const cityElement = document.createElement("p");
+const profileColumnOne = document.createElement("div");
+profileColumnOne.classList.add("profile-column1");
+const nameElement = document.createElement("div");
+nameElement.classList.add("profile-name");
+const textName = document.createElement("span");
+textName.classList.add("profile-text-name");
+const ageElement = document.createElement("div");
+ageElement.classList.add("profile-age");
+const textAge = document.createElement("span");
+textAge.classList.add("profile-text-age");
+const cityElement = document.createElement("div");
+cityElement.classList.add("profile-city");
+const textCity = document.createElement("span");
+textCity.classList.add("profile-text-city");
 const hobbiesContainer = document.createElement("h4");
 hobbiesContainer.textContent = "  Хобби:";
 const hobbiesList = document.createElement("ul");
@@ -27,9 +38,17 @@ const hobbiesList = document.createElement("ul");
 const themeBtn = document.createElement("button");
 themeBtn.classList.add("theme-btn");
 themeBtn.textContent = "Сменить тему";
+const changeNameBtn = document.createElement("button");
+changeNameBtn.classList.add("change-name");
+changeNameBtn.textContent = "🖊️";
+const changeAgeBtn = document.createElement("button");
+changeAgeBtn.classList.add("change-age");
+changeAgeBtn.textContent = "🖊️";
 const changeCityBtn = document.createElement("button");
-changeCityBtn.textContent = "Сменить город";
+changeCityBtn.classList.add("change-city");
+changeCityBtn.textContent = "🖊️";
 const addHobby = document.createElement("button");
+addHobby.classList.add("add-hobby");
 addHobby.textContent = "➕";
 hobbiesContainer.prepend(addHobby);
 
@@ -64,12 +83,39 @@ themeBtn.onclick = () => {
   saveUserData();
 };
 
+//Смена имени
+changeNameBtn.onclick = () => {
+  const editName = prompt("Введите имя");
+  if (editName !== null && editName.trim() !== "") {
+    user.name = editName.trim();
+    textName.innerHTML = `Имя: ${user.name}`;
+  } else {
+    alert("Поле не может быть пустым");
+  }
+  saveUserData();
+};
+
+//Смена возраста
+changeAgeBtn.onclick = () => {
+  const renameAge = Number(prompt("Введите возраст"));
+  log(renameAge);
+  if (renameAge !== null && renameAge !== "") {
+    user.age = renameAge;
+    textAge.textContent = `Возраст: ${user.age}`;
+  } else if (Number.isNaN(renameAge)) {
+    alert("Введите число");
+  } else {
+    alert("Поле не может быть пустым");
+  }
+  saveUserData();
+};
+
 //Смена города
 changeCityBtn.onclick = () => {
   const renameCity = prompt("Введите город");
   if (renameCity !== null && renameCity.trim() !== "") {
     user.city = renameCity.trim();
-    cityElement.textContent = `Город: ${user.city}`;
+    textCity.innerHTML = `Город: ${user.city}`;
   } else {
     alert("Поле не может быть пустым");
   }
@@ -77,20 +123,22 @@ changeCityBtn.onclick = () => {
 };
 
 //Поля пользователя
-nameElement.textContent = `Имя: ${user.name}`;
-ageElement.textContent = `Возраст: ${user.age}`;
-cityElement.textContent = `Город: ${user.city}`;
+textName.innerHTML = `Имя: ${user.name}`;
+textAge.innerHTML = `Возраст: ${user.age}`;
+textCity.innerHTML = `Город: ${user.city}`;
 
 //Пробегаем по массиву, создаем кнопки удаления и редактирования
 user.hobbies.forEach((hobby) => {
   const li = document.createElement("li");
   const removeHobby = document.createElement("button");
-  removeHobby.textContent = "❌";
+  removeHobby.classList.add("remove_hobby");
+  removeHobby.textContent = "🗑️";
   const transformHobby = document.createElement("button");
+  transformHobby.classList.add("transform_hobby");
   transformHobby.textContent = "🖋️";
 
   li.textContent = hobby;
-  li.append(removeHobby, transformHobby);
+  li.prepend(removeHobby, transformHobby);
   hobbiesList.append(li);
 
   removeHobby.onclick = () => {
@@ -121,12 +169,14 @@ addHobby.onclick = () => {
     user.hobbies.push(newHobby);
     const li = document.createElement("li");
     const removeHobby = document.createElement("button");
-    removeHobby.textContent = "❌";
+    removeHobby.classList.add("remove_hobby");
+    removeHobby.textContent = "🗑️";
     const transformHobby = document.createElement("button");
+    transformHobby.classList.add("transform_hobby");
     transformHobby.textContent = "🖋️";
 
     li.textContent = newHobby;
-    li.append(removeHobby, transformHobby);
+    li.prepend(removeHobby, transformHobby);
     hobbiesList.append(li);
     saveUserData();
 
@@ -156,14 +206,17 @@ addHobby.onclick = () => {
 
 //Выводим на страницу
 document.body.prepend(themeBtn);
-profile.append(
+nameElement.append(changeNameBtn, textName);
+cityElement.append(changeCityBtn, textCity);
+ageElement.append(changeAgeBtn, textAge);
+profileColumnOne.append(
   nameElement,
   ageElement,
   cityElement,
-  changeCityBtn,
   hobbiesContainer,
   hobbiesList
 );
+profile.append(profileColumnOne);
 document.body.append(profile);
 
 //Игра: угадай число
