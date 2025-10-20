@@ -6,10 +6,10 @@ const saveUserData = () => {
 };
 
 const user = {
-  name: "Анна",
-  age: 25,
-  city: "Москва",
-  hobbies: ["чтение", "программирование", "путешествия"],
+  name: "",
+  age: "",
+  city: "",
+  hobbies: [],
   theme: "light",
 };
 
@@ -19,6 +19,9 @@ profile.classList.add("profile");
 
 const profileColumnOne = document.createElement("div");
 profileColumnOne.classList.add("profile-column1");
+const profileColumnTwo = document.createElement("div");
+profileColumnTwo.classList.add("profile-column2");
+
 const nameElement = document.createElement("div");
 nameElement.classList.add("profile-name");
 const textName = document.createElement("span");
@@ -35,9 +38,8 @@ const hobbiesContainer = document.createElement("h4");
 hobbiesContainer.textContent = "  Хобби:";
 const hobbiesList = document.createElement("ul");
 
-const themeBtn = document.createElement("button");
-themeBtn.classList.add("theme-btn");
-themeBtn.textContent = "Сменить тему";
+const themeCheckbox = document.querySelector(".theme-checkbox");
+
 const changeNameBtn = document.createElement("button");
 changeNameBtn.classList.add("change-name");
 changeNameBtn.textContent = "🖊️";
@@ -62,26 +64,48 @@ if (savedUser) {
   user.theme = JSON.parse(savedUser).theme;
 
   if (user.theme === "dark") {
+    themeCheckbox.checked = true;
     document.body.classList.add("dark-theme");
-    themeBtn.textContent = "🌚 Ночь";
   }
 } else {
   saveUserData();
 }
 
 //Смена темы
-themeBtn.onclick = () => {
+// themeBtn.onclick = () => {
+//   if (user.theme === "light") {
+//     user.theme = "dark";
+//     document.body.classList.add("dark-theme");
+//     themeBtn.textContent = "🌚 Ночь";
+//   } else {
+//     user.theme = "light";
+//     document.body.classList.remove("dark-theme");
+//     themeBtn.textContent = "☀️ День";
+//   }
+//   saveUserData();
+// };
+
+themeCheckbox.onchange = () => {
+  document.body.classList.toggle("dark-theme");
   if (user.theme === "light") {
     user.theme = "dark";
-    document.body.classList.add("dark-theme");
-    themeBtn.textContent = "🌚 Ночь";
   } else {
     user.theme = "light";
-    document.body.classList.remove("dark-theme");
-    themeBtn.textContent = "☀️ День";
   }
   saveUserData();
 };
+
+// // Обработчик переключения
+// themeCheckbox.addEventListener("change", () => {
+//   if (themeCheckbox.checked) {
+//     user.theme = "dark";
+//     document.body.classList.add("dark-theme");
+//   } else {
+//     user.theme = "light";
+//     document.body.classList.remove("dark-theme");
+//   }
+//   saveUserData();
+// });
 
 //Смена имени
 changeNameBtn.onclick = () => {
@@ -89,25 +113,28 @@ changeNameBtn.onclick = () => {
   if (editName !== null && editName.trim() !== "") {
     user.name = editName.trim();
     textName.innerHTML = `Имя: ${user.name}`;
+    saveUserData();
   } else {
     alert("Поле не может быть пустым");
   }
-  saveUserData();
 };
 
 //Смена возраста
 changeAgeBtn.onclick = () => {
-  const renameAge = Number(prompt("Введите возраст"));
-  log(renameAge);
-  if (renameAge !== null && renameAge !== "") {
-    user.age = renameAge;
-    textAge.textContent = `Возраст: ${user.age}`;
-  } else if (Number.isNaN(renameAge)) {
+  const inputAge = prompt("Введите возраст");
+  if (inputAge === null || inputAge.trim() === "") {
+    alert("Введите число");
+    return;
+  }
+
+  const numberAge = parseInt(inputAge);
+  if (isNaN(numberAge)) {
     alert("Введите число");
   } else {
-    alert("Поле не может быть пустым");
+    user.age = numberAge;
+    textAge.textContent = `Возраст: ${user.age}`;
+    saveUserData();
   }
-  saveUserData();
 };
 
 //Смена города
@@ -116,10 +143,10 @@ changeCityBtn.onclick = () => {
   if (renameCity !== null && renameCity.trim() !== "") {
     user.city = renameCity.trim();
     textCity.innerHTML = `Город: ${user.city}`;
+    saveUserData();
   } else {
     alert("Поле не может быть пустым");
   }
-  saveUserData();
 };
 
 //Поля пользователя
@@ -193,7 +220,7 @@ addHobby.onclick = () => {
       if (newTransformHobby !== null && newTransformHobby !== "") {
         user.hobbies[oldTransformHobby] = newTransformHobby;
         li.textContent = newTransformHobby;
-        li.append(removeHobby, transformHobby);
+        li.prepend(removeHobby, transformHobby);
         saveUserData();
       } else {
         alert("Поле не может быть пустым");
@@ -205,7 +232,6 @@ addHobby.onclick = () => {
 };
 
 //Выводим на страницу
-document.body.prepend(themeBtn);
 nameElement.append(changeNameBtn, textName);
 cityElement.append(changeCityBtn, textCity);
 ageElement.append(changeAgeBtn, textAge);
@@ -217,6 +243,7 @@ profileColumnOne.append(
   hobbiesList
 );
 profile.append(profileColumnOne);
+profile.append(profileColumnTwo);
 document.body.append(profile);
 
 //Игра: угадай число
