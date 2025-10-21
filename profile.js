@@ -1,7 +1,5 @@
 import { saveToLocalStorage, getToLocalStorage } from "./helpers.js";
 
-const log = console.log;
-
 const user = {
   name: "",
   age: "",

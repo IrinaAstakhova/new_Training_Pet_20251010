@@ -1,7 +1,5 @@
 import { saveToLocalStorage, getToLocalStorage } from "./helpers.js";
 
-const log = console.log;
-
 const arrToDo = JSON.parse(getToLocalStorage("tasks")) || [];
 const input = document.querySelector("[data-input-todo]");
 const button = document.querySelector("[data-btn-add-todo]");
@@ -9,6 +7,7 @@ const todoList = document.querySelector(".todo-list");
 
 const taskPattern = (value) => {
   const divTask = document.createElement("div");
+  divTask.classList.add("task");
   const span = document.createElement("span");
   const delBtn = document.createElement("button");
   delBtn.textContent = "❌";
