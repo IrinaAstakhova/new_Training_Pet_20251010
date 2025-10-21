@@ -1,9 +1,6 @@
-const log = console.log;
+import { saveToLocalStorage, getToLocalStorage } from "./helpers.js";
 
-//Функция для сохранения в localStorage
-const saveUserData = () => {
-  return localStorage.setItem("keyUserArray", JSON.stringify(user));
-};
+const log = console.log;
 
 const user = {
   name: "",
@@ -55,7 +52,8 @@ addHobby.textContent = "➕";
 hobbiesContainer.prepend(addHobby);
 
 //Обновляем объект из localStorage
-const savedUser = localStorage.getItem("keyUserArray");
+const savedUser = getToLocalStorage("keyUserArray");
+log(savedUser);
 if (savedUser) {
   user.name = JSON.parse(savedUser).name;
   user.age = JSON.parse(savedUser).age;
@@ -68,22 +66,8 @@ if (savedUser) {
     document.body.classList.add("dark-theme");
   }
 } else {
-  saveUserData();
+  saveToLocalStorage("keyUserArray", user);
 }
-
-//Смена темы
-// themeBtn.onclick = () => {
-//   if (user.theme === "light") {
-//     user.theme = "dark";
-//     document.body.classList.add("dark-theme");
-//     themeBtn.textContent = "🌚 Ночь";
-//   } else {
-//     user.theme = "light";
-//     document.body.classList.remove("dark-theme");
-//     themeBtn.textContent = "☀️ День";
-//   }
-//   saveUserData();
-// };
 
 themeCheckbox.onchange = () => {
   document.body.classList.toggle("dark-theme");
@@ -92,20 +76,8 @@ themeCheckbox.onchange = () => {
   } else {
     user.theme = "light";
   }
-  saveUserData();
+  saveToLocalStorage("keyUserArray", user);
 };
-
-// // Обработчик переключения
-// themeCheckbox.addEventListener("change", () => {
-//   if (themeCheckbox.checked) {
-//     user.theme = "dark";
-//     document.body.classList.add("dark-theme");
-//   } else {
-//     user.theme = "light";
-//     document.body.classList.remove("dark-theme");
-//   }
-//   saveUserData();
-// });
 
 //Смена имени
 changeNameBtn.onclick = () => {
@@ -113,7 +85,7 @@ changeNameBtn.onclick = () => {
   if (editName !== null && editName.trim() !== "") {
     user.name = editName.trim();
     textName.innerHTML = `Имя: ${user.name}`;
-    saveUserData();
+    saveToLocalStorage("keyUserArray", user);
   } else {
     alert("Поле не может быть пустым");
   }
@@ -133,7 +105,7 @@ changeAgeBtn.onclick = () => {
   } else {
     user.age = numberAge;
     textAge.textContent = `Возраст: ${user.age}`;
-    saveUserData();
+    saveToLocalStorage("keyUserArray", user);
   }
 };
 
@@ -143,7 +115,7 @@ changeCityBtn.onclick = () => {
   if (renameCity !== null && renameCity.trim() !== "") {
     user.city = renameCity.trim();
     textCity.innerHTML = `Город: ${user.city}`;
-    saveUserData();
+    saveToLocalStorage("keyUserArray", user);
   } else {
     alert("Поле не может быть пустым");
   }
@@ -172,7 +144,7 @@ user.hobbies.forEach((hobby) => {
     const indexFromDel = user.hobbies.indexOf(`${hobby}`);
     user.hobbies.splice(indexFromDel, 1);
     li.remove();
-    saveUserData();
+    saveToLocalStorage("keyUserArray", user);
   };
 
   transformHobby.onclick = () => {
@@ -182,7 +154,7 @@ user.hobbies.forEach((hobby) => {
       user.hobbies[oldTransformHobby] = newTransformHobby;
       li.textContent = newTransformHobby;
       li.append(removeHobby, transformHobby);
-      saveUserData();
+      saveToLocalStorage("keyUserArray", user);
     } else {
       alert("Поле не может быть пустым");
     }
@@ -205,13 +177,13 @@ addHobby.onclick = () => {
     li.textContent = newHobby;
     li.prepend(removeHobby, transformHobby);
     hobbiesList.append(li);
-    saveUserData();
+    saveToLocalStorage("keyUserArray", user);
 
     removeHobby.onclick = () => {
       const indexFromDel = user.hobbies.indexOf(`${newHobby}`);
       user.hobbies.splice(indexFromDel, 1);
       li.remove();
-      saveUserData();
+      saveToLocalStorage("keyUserArray", user);
     };
 
     transformHobby.onclick = () => {
@@ -221,7 +193,7 @@ addHobby.onclick = () => {
         user.hobbies[oldTransformHobby] = newTransformHobby;
         li.textContent = newTransformHobby;
         li.prepend(removeHobby, transformHobby);
-        saveUserData();
+        saveToLocalStorage("keyUserArray", user);
       } else {
         alert("Поле не может быть пустым");
       }
@@ -341,10 +313,6 @@ const btnRestPurchase = document.querySelector(".btn-reset_purchase");
 
 let arrPurchase = [];
 let pressbBtnFilter;
-//Сохраняем в локал сторадж список покупок
-const saveListPurchase = () => {
-  return localStorage.setItem("listPuchase", JSON.stringify(arrPurchase));
-};
 
 //Функция для отрисовки
 const fnForRenderList = (newArrFiltered) => {
@@ -365,12 +333,12 @@ const fnForRenderList = (newArrFiltered) => {
 };
 
 //Восстанавливаем из локал сторадж список покупок
-const localStorageGet = localStorage.getItem("listPuchase");
+const localStorageGet = getToLocalStorage("listPuchase");
 if (localStorageGet) {
   arrPurchase = JSON.parse(localStorageGet);
   fnForRenderList(arrPurchase);
 } else {
-  saveListPurchase();
+  saveToLocalStorage("listPuchase", arrPurchase);
 }
 
 //Добавление покупки в список
@@ -392,7 +360,7 @@ const addPurchaseItem = () => {
 
     inputPurchase.value = "";
 
-    saveListPurchase();
+    saveToLocalStorage("listPuchase", arrPurchase);
   }
 };
 
@@ -416,7 +384,7 @@ listPuchase.addEventListener("change", (e) => {
       }
     });
 
-    saveListPurchase();
+    saveToLocalStorage("listPuchase", arrPurchase);
     if (pressbBtnFilter === "unfinished") {
       fnViewUnfinished();
     } else if (pressbBtnFilter === "completed") {
@@ -440,7 +408,7 @@ listPuchase.addEventListener("click", (e) => {
     li.remove();
 
     fnForRenderList(arrPurchase);
-    saveListPurchase();
+    saveToLocalStorage("listPuchase", arrPurchase);
   }
 });
 
@@ -448,7 +416,7 @@ listPuchase.addEventListener("click", (e) => {
 btnRestPurchase.addEventListener("click", () => {
   arrPurchase = [];
   listPuchase.innerHTML = "";
-  saveListPurchase();
+  saveToLocalStorage("listPuchase", arrPurchase);
 });
 
 //Функция для завершенных покупок

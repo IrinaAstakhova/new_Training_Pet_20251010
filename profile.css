@@ -57,6 +57,37 @@ h3, .paragrafh {text-align: center;}
   transform: translateX(26px);
 }
 
+/*todo*/
+.container-todo-list {
+ box-sizing: border-box;
+ background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
+ border-radius: 16px;
+ padding: clamp(24px, 8vw, 60px);
+ margin: 0 auto;
+ margin-bottom: 40px;
+ width: 100%;
+ max-width: 700px;
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+}
+
+.todo-task {
+    border: 1px dashed  rgb(255, 255, 255);
+    background: #00000069;
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+}
+
+.todo-task input {
+flex-grow: 3;
+}
+
+.todo-task button {
+flex-grow: 1;
+}
+
 .profile {
  box-sizing: border-box;
  background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
