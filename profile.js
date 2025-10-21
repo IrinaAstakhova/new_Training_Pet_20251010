@@ -53,7 +53,6 @@ hobbiesContainer.prepend(addHobby);
 
 //Обновляем объект из localStorage
 const savedUser = getToLocalStorage("keyUserArray");
-log(savedUser);
 if (savedUser) {
   user.name = JSON.parse(savedUser).name;
   user.age = JSON.parse(savedUser).age;

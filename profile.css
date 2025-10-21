@@ -88,6 +88,10 @@ flex-grow: 3;
 flex-grow: 1;
 }
 
+hr {
+    width: 100%;
+}
+
 .profile {
  box-sizing: border-box;
  background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
