@@ -188,8 +188,9 @@ addHobby.onclick = () => {
       const newTransformHobby = prompt("Введите новое значение");
       if (newTransformHobby !== null && newTransformHobby !== "") {
         user.hobbies[oldTransformHobby] = newTransformHobby;
-        li.prepend(removeHobby, transformHobby);
+
         li.textContent = newTransformHobby;
+        li.prepend(removeHobby, transformHobby);
         saveToLocalStorage("keyUserArray", user);
       } else {
         alert("Поле не может быть пустым");

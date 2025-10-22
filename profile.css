@@ -342,3 +342,34 @@ border: none;
 }
 
 .complete_purchase {text-decoration: line-through;}
+
+.container-table {
+    box-sizing: border-box;
+    background: linear-gradient(90deg,rgba(2, 0, 36, 0.5) 0%, rgba(9, 9, 121, 0.5) 35%, rgba(0, 212, 255, 0.5) 100%);
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+    margin-bottom: 40px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-table table {
+    border-collapse: collapse;
+    border: 1px dashed rgb(255, 255, 255);
+    background: #00000069;
+    cursor: pointer;
+}
+
+.container-table td {
+    padding: 16px;
+     border: 1px solid rgb(255, 255, 255);
+} 
+
+.marker {
+    background-color: #51bd87a2;
+    transition: 0.8s all;
+}
